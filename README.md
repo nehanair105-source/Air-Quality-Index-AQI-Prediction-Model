@@ -143,19 +143,6 @@ AQI_Project/
 6. Model generates predictions and probabilities
 7. Results are displayed with supporting visualizations
 
----
-
-## Installation Guide
-
-### Step 1: Clone Repository
-
-```bash
-git clone https://github.com/your-username/aqi-india-predictor.git
-cd aqi-india-predictor
-```
-
-### Step 2: Install Dependencies
-
 ```bash
 pip install -r requirements.txt
 ```
