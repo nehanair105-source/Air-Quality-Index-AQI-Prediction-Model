@@ -1,86 +1,169 @@
-# Air Quality Index (AQI) Prediction Model
+# AQI India Predictor
 
-A machine learning web application that predicts **AQI category** for Indian cities using pollutant and weather data — built with Random Forest and deployed via Streamlit.
+## Project Overview
 
-##  Project Overview
+The AQI India Predictor is an end-to-end Machine Learning application designed to classify air quality levels across Indian regions using environmental, meteorological, and contextual features.
 
-| Item | Details |
-|------|---------|
-| **Problem Type** | Multi-class Classification |
-| **Dataset Size** | 842,160 records |
-| **Best Model** | Random Forest |
-| **Accuracy** | 85.3% |
-| **F1 Score** | 0.85 (weighted) |
+This project integrates a production-style prediction pipeline with an interactive Streamlit interface, ensuring both technical robustness and usability.
 
----
+The system predicts AQI categories aligned with standard air quality classifications:
 
-##  ML Pipeline
-
--  Exploratory Data Analysis (EDA)
--  Outlier treatment & data cleaning
--  Feature selection using VIF (Variance Inflation Factor)
--  OneHot Encoding + Standard Scaling
--  Model training — Logistic Regression, XGBoost, Random Forest
--  Hyperparameter tuning using GridSearchCV
--  Model evaluation — Accuracy, F1 Score, Confusion Matrix
+* Good
+* Moderate
+* Unhealthy for Sensitive Groups
+* Unhealthy
+* Very Unhealthy
 
 ---
 
-##  Model Comparison
+## Problem Statement
 
-| Model | Accuracy | F1 Score |
-|-------|----------|----------|
-| Random Forest | **85.3%** | **0.85** |
-| XGBoost | 73.5% | 0.74 |
-| Logistic Regression | 70.9% | 0.71 |
+Air pollution is a major public health concern in India. Traditional AQI monitoring systems rely on real-time sensor networks, which may not always be accessible.
 
----
+This project aims to:
 
-## 🌫️ AQI Categories Predicted
-
-| Category | Description |
-|----------|-------------|
-|  Good | Air quality is satisfactory |
-|  Moderate | Acceptable air quality |
-|  Unhealthy for Sensitive Groups | Risk for sensitive people |
-|  Unhealthy | Everyone may experience effects |
-|  Very Unhealthy | Health alert for all |
+* Provide a data-driven AQI classification system
+* Use historical pollutant and weather data to predict air quality
+* Enable quick decision-making through an intuitive interface
 
 ---
 
-##  Features Used
+## Machine Learning Pipeline
 
-**Pollutants:** PM2.5, NO₂, CO, SO₂, O₃, AOD
+### 1. Data Processing
 
-**Weather:** Dew Point, Cloud Cover, Heavy Rain
+The dataset includes pollutant levels, weather conditions, and contextual features.
 
-**Time:** Season, Time of Day, Weekend
+#### Numerical Features:
 
-**Location:** State (29 Indian states)
+* PM2.5, CO, NO₂, SO₂, O₃, AOD
+* Dew Point
+* Cloud Cover
 
-**Events:** Festival Period, Crop Burning Season
+#### Categorical Features:
+
+* Season
+* Time of Day
+* State
+
+#### Binary Features:
+
+* Weekend
+* Heavy Rain
+* Festival Period
+* Crop Burning Season
 
 ---
 
-##  Project Structure
+### 2. Feature Engineering
+
+* Categorical variables encoded using OneHotEncoder
+* Numerical features scaled using StandardScaler
+* Feature alignment handled to match training schema
+
+---
+
+### 3. Model Selection
+
+* Algorithm: Random Forest Classifier
+* Reason for selection:
+
+  * Handles non-linear relationships effectively
+  * Robust to noise and outliers
+  * Performs well without extensive feature tuning
+
+---
+
+### 4. Model Performance
+
+* Accuracy: ~85.3%
+* Evaluated using train-test split
+* Outputs class probabilities for interpretability
+
+---
+
+## System Architecture
+
 ```
-my_project/
-├── app.py              # Streamlit web application
-├── Aqi_project.ipynb   # ML model notebook
-├── rf_model.pkl        # Trained Random Forest model
-├── scaler.pkl          # StandardScaler
-├── encoder.pkl         # OneHotEncoder
-└── aqi_encoding.json   # Label mapping
+User Input (Streamlit UI)
+        ↓
+Data Preprocessing
+  - Encoding
+  - Scaling
+        ↓
+Feature Alignment
+        ↓
+Random Forest Model
+        ↓
+Prediction + Probabilities
+        ↓
+UI Visualization (Confidence + Insights)
 ```
 
 ---
 
-##  Installation & Run
+## Application (Streamlit)
+
+The frontend is built using Streamlit with custom styling for improved user experience.
+
+### Key Components:
+
+* Pollutant input section
+* Weather condition controls
+* Time and contextual selectors
+* Prediction result display
+* Confidence score visualization
+* Probability distribution across classes
+
+---
+
+## Project Structure
+
+```
+AQI_Project/
+│
+├── app.py                # Streamlit frontend and inference pipeline
+├── rf_model.pkl          # Trained Random Forest model
+├── scaler.pkl            # StandardScaler (fitted on training data)
+├── encoder.pkl           # OneHotEncoder for categorical variables
+├── aqi_encoding.json     # Label mapping (index to AQI category)
+├── requirements.txt      # Python dependencies
+└── README.md             # Documentation
+```
+
+---
+
+## Prediction Workflow
+
+1. User provides input via the interface
+2. Inputs are converted into structured DataFrame
+3. Categorical features are encoded
+4. Numerical features are scaled
+5. Features are aligned with training columns
+6. Model generates predictions and probabilities
+7. Results are displayed with supporting visualizations
+
+---
+
+## Installation Guide
+
+### Step 1: Clone Repository
+
 ```bash
-# Install dependencies
-pip install streamlit scikit-learn xgboost joblib pandas numpy
+git clone https://github.com/your-username/aqi-india-predictor.git
+cd aqi-india-predictor
+```
 
-# Run the app
+### Step 2: Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Step 3: Run Application
+
+```bash
 streamlit run app.py
 ```
+
 
